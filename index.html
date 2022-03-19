@@ -32,14 +32,14 @@
 
  <head>
   <meta charset="utf-8">
-  <title>Photo Transform</title>
+  <title>Photo Transform</title> <!-- Title of the webpage. -->
   <meta name="viewport" content="width=device-width, initial-scale=.7">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <link rel="stylesheet" href="https://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css" />
   <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
   <script src="https://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
 
- <script>
+ <script> // Start of script.
   var docMod = document.lastModified; // gets last modified date and time of the index.html file
   console.log("This file last modified  " + docMod); // displays last modified date and time in the javascipt browser console 
 
@@ -102,10 +102,24 @@
 
           /* PUT ANY CHANGES TO THE JAVASCRIPT HERE  */
           
-          
-          
-          
-        } // end of img.onload
+        var canvas2=document.getElementById("dataCanvas"); // This sets up the ID of the second canvas as "dataCanvas".
+        var context2=canvas2.getContext("2d"); // This function returns a drawing context onto the canvas after it's called.
+         
+         
+        var imageData = context.getImageData (0,0, 600, 500); // Defines imageData variable to run the pixel transformation.
+        var data = imageData.data;  // Calls pixel data from the image on the second canvas starting at the origin.
+        
+         
+        // Transforms the image to blue; calculates the brightness of each pixel and sets the RGB equal to the desired color.
+        for(var i=0, n=data.length; i < n; i+=4){ // Loop repeated throughout each pixel of the image.
+            // Red and green intensities are set equal to 0 (only want blue from the image).
+            data [i] = 0; //  Red is set to 0.
+            data [i+1] = 0; // Green is set to 0.
+         
+        }
+         
+        context2.putImageData(imageData, 0, 0); // Runs the image that's selected by the user on the second page/isolates the blue pixels.
+        } // End of img.onload.
         
         img.src = reader.result;
       } //  end of reader.onload
@@ -119,7 +133,9 @@
     } // end of the else statement if file in NOT an image
   }); // end of the fileInput.addEventListener function
  } // end of the window.onload function
- </script>
+ 
+  </script> <!-- End of script. -->      
+          
  </head>
 
  <body>
@@ -127,25 +143,37 @@
     <div data-role="header">
     <h1>Primary Colors</h1></div><!-- /header -->
     <div data-role="content">	
-      <h2>Push button to take picture.</h2>
+      <h2>Push button to take picture.</h2> <!-- Prompts user to take a picture by pressing the button below. -->
       <div>
-        Press orange button to create or choose image file:
+        Press orange button to create or choose image file: <!-- Prompts user to choose an image file if they do not/cannot take a photo. -->
         <input type="file" id="fileInput" STYLE="background-color: #FF6600;">
       </div>
-      <div id="messageDisplayArea"></div>
+      <div id="messageDisplayArea"></div> <!-- Will alert the user "You picked an image!" if they picked a picture that works or "File not supported!" if they upload a file that does not work. -->
       
-      <canvas id="myCanvas" width=600 height=500 style="border:1px solid #d3d3d3;"></canvas>
-      <script> /* This script initiates the cavas and puts the text on the canvas "myCanvas" */
-        var canvas = document.getElementById('myCanvas');
-        var context = canvas.getContext("2d");
-        context.font = '20pt Calibri';
-        context.fillStyle = "black";
-        context.fillText("Original image will go here", 10, 20);
-      </script>
+     <!-- First canvas; ID is "myCanvas". -->
+     <canvas id="myCanvas" width=600 height=500 style="border:1px solid #d3d3d3;"></canvas>
+      <script> // Start of canvas script; puts initial image and text on the canvas.
+        var canvas = document.getElementById("myCanvas"); // Defines canvas variable and calls function to run on the first canvas.
+        var context = canvas.getContext("2d"); // Calls 2d context of canvas.
+        context.font = '20pt Calibri'; // Font used for text on canvas.
+        context.fillStyle = "black"; // Color of text on canvas.
+        context.fillText("Original image will go here", 10, 20); // Text displayed on canvas and its dimensions.
+      </script> <!-- End of first canvas script. -->
+     
+     <!-- Second canvas; ID is "myCanvasTwo". -->
+     <canvas id="myCanvasTwo" width=600 height=500 style="border:1px solid #d3d3d3;"></canvas>
+     <script> // Start of canvas script; puts transformed image and text on the canvas.
+        var canvas2 = document.getElementById("myCanvasTwo"); // Defines canvas2 variable and calls function to run on the second canvas.
+        var context2 = canvas2.getContext("2d"); // Calls 2d context of canvas2.
+        context2.font = '20pt Times New Roman'; // Font used for text on canvas.
+        context2.fillStyle = "black"; // Color of text on canvas.
+        context2.fillText("Transformed image will go here", 10, 20); // Text displayed on canvas and its dimensions.
+     </script> <!--End of second canvas script. -->
 
     </div><!-- /content -->
+   
     <div data-role="footer" data-position="fixed">
-      <p>DIY Diagnostics</p>
+      <p>DIY Diagnostics</p> <!-- Footer at the bottom of the webpage. -->
     </div><!-- /footer -->
   </div><!-- /page -->
  </body>
